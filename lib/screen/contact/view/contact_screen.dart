@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/utils/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import '../../../utils/firebase/firebasedb_helper.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -32,6 +31,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
               for (var x in list) {
                 Map m1 = x.data() as Map;
+                print(m1);
                 ProfileModel p1 = ProfileModel(
                   uid: x.id,
                   image: m1['image'],
@@ -47,6 +47,9 @@ class _ContactScreenState extends State<ContactScreen> {
                 itemCount: userData.length,
                 itemBuilder: (context, index) {
                   return ListTile(
+                    onTap: (){
+
+                    },
                     leading: userData[index].image != null
                         ? CircleAvatar(
                       radius: 30,

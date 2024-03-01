@@ -1,5 +1,6 @@
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/screen/widget/custome_textfiled.dart';
+import 'package:stand_chat_app/utils/firebase/firebase_authanticasion.dart';
 import 'package:stand_chat_app/utils/firebase/firebasedb_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: () {
                     ProfileModel p1 = ProfileModel(
+                      uid: FireAuthHelper.fireAuthHelper.user!.uid,
                       name: txtName.text,
                       mobile: txtMobile.text,
                       bio: txtBio.text,

@@ -16,6 +16,7 @@ class FireDbHelper {
         .doc("${FireAuthHelper.fireAuthHelper.user!.uid}")
         .set(
       {
+        "id":p1.uid,
         "name": p1.name,
         "mobile": p1.mobile,
         "bio": p1.bio,
