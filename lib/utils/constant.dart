@@ -1,0 +1,12 @@
+const String loginTitle = "Log in to ChatApp";
+const String loginDec = "Welcome back! Sign in using your social\n account or email to continue us";
+const String loginButton = "Log in";
+const String registrationTitle = "Sign up with Email";
+const String registrationDec = "Get chatting with friends and family today by\n signing up for our chat app!";
+const String registrationButton= "sign up";
+const String email = "Your email";
+const String password = "Password";
+const String forgetPass = "Forgot password?";
+const String createNewAccount = "Create New Account? sign up";
+const String name = "Your name";
+const String confirmPassword = "Confirm Password";
