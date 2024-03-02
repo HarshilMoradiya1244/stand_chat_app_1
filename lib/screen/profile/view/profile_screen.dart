@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:stand_chat_app/screen/profile/controller/profile_controller.dart';
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/screen/widget/custome_textfiled.dart';
 import 'package:stand_chat_app/utils/firebase/firebase_authanticasion.dart';
@@ -19,6 +21,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtAddress = TextEditingController();
 
+  ProfileController controller = Get.put(ProfileController());
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+  Future<void> getData() async {
+    await controller.getProfileData();
+    if (controller.data.value != null) {
+      txtName.text = controller.data.value!['name'];
+      txtBio.text = controller.data.value!['bio'];
+      txtMobile.text = controller.data.value!['mobile'];
+      txtEmail.text = controller.data.value!['email'];
+      txtAddress.text = controller.data.value!['address'];
+      txtImage.text = controller.data.value!['image'];
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       image: txtImage.text,
                     );
                     FireDbHelper.fireDbHelper.addProfileData(p1);
+                    Get.offAllNamed('home');
                   },
                   child: const Text("Save"),
                 ),

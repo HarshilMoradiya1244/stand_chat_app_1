@@ -52,9 +52,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           onTap: () async {
                             String msg=await FireAuthHelper.fireAuthHelper.googleSignIn();
                             Get.snackbar(msg, "Login success fully");
-                            if(msg=="success")
-                            {
-                              Get.offAllNamed('home');
+                            if (msg == "success") {
+                              Get.offAllNamed('profile');
                             }
                           },
                           child: socialContainer("assets/images/google.png")),
@@ -101,7 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           email: txtEmail.text, password: txtPassword.text);
                       Get.snackbar(msg, "");
                       if (msg == "success") {
-                        Get.offAllNamed('home');
+                        Get.offAllNamed('profile');
                       }
                     },
                     child: Container(
