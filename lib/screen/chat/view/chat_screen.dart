@@ -21,16 +21,16 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         leading: profileModel.image != null
             ? CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage("${profileModel.image}"),
-              )
+          radius: 30,
+          backgroundImage: NetworkImage("${profileModel.image}"),
+        )
             : CircleAvatar(
-                radius: 30,
-                child: Text(
-                  "${profileModel.name!.substring(0, 1)}",
-                  style: const TextStyle(color: Colors.black87),
-                ),
-              ),
+          radius: 30,
+          child: Text(
+            "${profileModel.name!.substring(0, 1)}",
+            style: const TextStyle(color: Colors.black87),
+          ),
+        ),
         title: Text("${profileModel.name}"),
         centerTitle: true,
       ),
@@ -40,34 +40,51 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: txtMsg,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
+              child: Container(
+                height: 50,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: txtMsg,
+                        textAlignVertical: TextAlignVertical.top,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      FireDbHelper.fireDbHelper.sendMassage(
-                        fuid: profileModel.uid!,
-                        chatModel: ChatModel(
-                          date: "${DateTime.now()}",
-                          msg: "${txtMsg.text}",
-                          name: "${profileModel.name}",
-                          time: "${TimeOfDay.now()}",
-                        ),
-                      );
-                      txtMsg.clear();
-                    },
-                    icon: const Icon(Icons.send),
-                  ),
-                ],
+                    IconButton.filled(
+                      onPressed: () {
+                        ChatModel model = ChatModel(
+                          name: FireDbHelper.fireDbHelper.myProfileData.name,
+                          msg: txtMsg.text,
+                          time: "${DateTime
+                              .now()
+                              .hour}:${DateTime
+                              .now()
+                              .minute}:${DateTime
+                              .now()
+                              .second}",
+                          date: "${DateTime
+                              .now()
+                              .day}/${DateTime
+                              .now()
+                              .month}/${DateTime
+                              .now()
+                              .year}",
+                        );
+                        FireDbHelper.fireDbHelper.sendMessage(
+                            model, FireDbHelper.fireDbHelper.myProfileData, profileModel);
+                        txtMsg.clear();
+                      },
+                      icon: const Icon(Icons.send),
+                    ),
+                  ],
+                ),
               ),
             ),
           )

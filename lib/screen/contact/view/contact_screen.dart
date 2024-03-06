@@ -20,20 +20,22 @@ class _ContactScreenState extends State<ContactScreen> {
           title: const Text("Contacts"),
           centerTitle: true,
         ),
-        body: StreamBuilder(
-          stream: FireDbHelper.fireDbHelper.getAllProfile(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            } else if (snapshot.hasData) {
-              List<ProfileModel> userData = [];
-              QuerySnapshot qs = snapshot.data!;
-              List<QueryDocumentSnapshot> list = qs.docs;
+      body: StreamBuilder(
+        stream: FireDbHelper.fireDbHelper.getAllContact(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
 
-              for (var x in list) {
+            List<ProfileModel> contactData = [];
+            QuerySnapshot? qs = snapshot.data;
+            if(qs!=null){
+              List<QueryDocumentSnapshot> qsList = qs.docs;
+
+              for (var x in qsList) {
                 Map m1 = x.data() as Map;
                 ProfileModel p1 = ProfileModel(
-                  uid: x.id,
+                  uid: m1['uid'],
                   image: m1['image'],
                   name: m1['name'],
                   bio: m1['bio'],
@@ -41,38 +43,42 @@ class _ContactScreenState extends State<ContactScreen> {
                   mobile: m1['mobile'],
                   address: m1['address'],
                 );
-                userData.add(p1);
+
+                contactData.add(p1);
               }
-              return ListView.builder(
-                itemCount: userData.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: (){
-                      Get.toNamed('chat',arguments: userData[index]);
-                    },
-                    leading: userData[index].image != null
-                        ? CircleAvatar(
-                      radius: 30,
-                      backgroundImage:
-                      NetworkImage("${userData[index].image}"),
-                    )
-                        : CircleAvatar(
-                      radius: 30,
-                      child: Text(
-                        userData[index].name!.substring(0, 1),
-                        style: const TextStyle(color: Colors.black87),
-                      ),
-                    ),
-                    title: Text("${userData[index].name}",style: txtBold18,),
-                    subtitle: Text("${userData[index].mobile}",style: txtBook16,),
-                  );
-                },
-              );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+
+            return ListView.builder(
+              itemCount: contactData.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    Get.toNamed('chat',arguments: contactData[index]);
+                  },
+                  leading: contactData[index].image != null
+                      ? CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                    NetworkImage("${contactData[index].image}"),
+                  )
+                      : CircleAvatar(
+                    radius: 30,
+                    child: Text(
+                      contactData[index].name!.substring(0, 1),
+                      style: const TextStyle(color: Colors.black87),
+                    ),
+                  ),
+                  title: Text("${contactData[index].name}",style: txtBold18,),
+                  subtitle: Text("${contactData[index].mobile}",style: txtBook16,),
+                );
+              },
             );
-          },
-        ));
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
   }
 }

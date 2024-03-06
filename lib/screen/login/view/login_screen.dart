@@ -50,7 +50,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     children: [
                       InkWell(
                           onTap: () async {
-                            String msg=await FireAuthHelper.fireAuthHelper.googleSignIn();
+                            FireAuthHelper.fireAuthHelper.checkUser();
+                            String msg = await FireAuthHelper.fireAuthHelper
+                                .googleSignIn();
                             Get.snackbar(msg, "Login success fully");
                             if (msg == "success") {
                               Get.offAllNamed('profile');
@@ -100,6 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           email: txtEmail.text, password: txtPassword.text);
                       Get.snackbar(msg, "");
                       if (msg == "success") {
+                        FireAuthHelper.fireAuthHelper.checkUser();
                         Get.offAllNamed('profile');
                       }
                     },
@@ -109,13 +112,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: const Color(0xffF3F6F6),
-
                       ),
                       child: Center(
                           child: Text(
-                            loginButton,
-                            style: txtBook16,
-                          )),
+                        loginButton,
+                        style: txtBook16,
+                      )),
                     ),
                   ),
                   const SizedBox(
