@@ -15,56 +15,38 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  TextEditingController txtImage = TextEditingController();
   TextEditingController txtName = TextEditingController();
   TextEditingController txtBio = TextEditingController();
   TextEditingController txtMobile = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtAddress = TextEditingController();
+  TextEditingController txtImage = TextEditingController();
 
-  ProfileController controller = Get.put(ProfileController());
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  Future<void> getData() async {
-    if (controller.data.value != null) {
-      txtName.text = controller.data.value!['name'];
-      txtBio.text = controller.data.value!['bio'];
-      txtMobile.text = controller.data.value!['mobile'];
-      txtEmail.text = controller.data.value!['email'];
-      txtAddress.text = controller.data.value!['address'];
-      txtImage.text = controller.data.value!['image'];
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          title: const Text("Profile"),
           centerTitle: true,
-          title: const Text("Profile Screen"),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
-          ],
         ),
         body: StreamBuilder(
-          stream: FireDbHelper.fireDbHelper.getProfileData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
+          stream: FireDbHelper.fireDbHelper.  getProfileData(),
+          builder:(context, snapshot) {
+            if(snapshot.hasError){
               return Text("${snapshot.error}");
-            } else if (snapshot.hasData) {
-              DocumentSnapshot? ds = snapshot.data;
+            }
+            else if(snapshot.hasData){
+              DocumentSnapshot? ds=snapshot.data;
               Map? data = ds?.data() as Map?;
-              if (data != null) {
+              if(data!=null){
+
                 txtName.text = data['name'];
                 txtEmail.text = data['email'];
                 txtMobile.text = data['mobile'];
-                if (data['image'] != null) {
+                if(data['image']!=null)
+                {
                   txtImage.text = data['image'];
                 }
                 txtAddress.text = data['address'];
@@ -90,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         label: "Mobile",
                         controller: txtMobile,
                       ),
+
                       CustomeTextFiled(
                         label: "Email",
                         controller: txtEmail,
@@ -122,9 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator(),);
           },
         ),
       ),

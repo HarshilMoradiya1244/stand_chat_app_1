@@ -16,10 +16,10 @@ class _ContactScreenState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Contacts"),
-          centerTitle: true,
-        ),
+      appBar: AppBar(
+        title: const Text("Contact"),
+        centerTitle: true,
+      ),
       body: StreamBuilder(
         stream: FireDbHelper.fireDbHelper.getAllContact(),
         builder: (context, snapshot) {
@@ -35,15 +35,15 @@ class _ContactScreenState extends State<ContactScreen> {
               for (var x in qsList) {
                 Map m1 = x.data() as Map;
                 ProfileModel p1 = ProfileModel(
-                  uid: m1['uid'],
+                  uid: x.id,
                   image: m1['image'],
                   name: m1['name'],
                   bio: m1['bio'],
                   email: m1['email'],
                   mobile: m1['mobile'],
                   address: m1['address'],
-                );
 
+                );
                 contactData.add(p1);
               }
             }
@@ -64,7 +64,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       : CircleAvatar(
                     radius: 30,
                     child: Text(
-                      contactData[index].name!.substring(0, 1),
+                      "${contactData[index].name!.substring(0, 1)}",
                       style: const TextStyle(color: Colors.black87),
                     ),
                   ),

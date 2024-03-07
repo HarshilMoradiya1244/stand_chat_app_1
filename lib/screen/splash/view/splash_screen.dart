@@ -19,9 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isLogin = FireAuthHelper.fireAuthHelper.checkUser();
     Timer(
       const Duration(seconds: 3),
-      () => Get.offAllNamed(isLogin == false?'signin':'home'),
+          () => Get.offAllNamed(isLogin==false?'signin':'home'),
     );
   }
+
   @override
   Widget build(BuildContext context) {
 
