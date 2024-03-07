@@ -112,11 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .substring(0, 1)),
                           ),
                         )
-                      : CircleAvatar(
-                          radius: 50,
-                          backgroundImage:
-                              NetworkImage("${contactChatList[index].image}"),
-                        ),
+                      : SizedBox(width: 50,
+                        child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                NetworkImage("${contactChatList[index].image}"),
+                          ),
+                      ),
                   title: Text("${contactChatList[index].name}"),
                   subtitle: Text("${contactChatList[index].mobile}"),
                 );
