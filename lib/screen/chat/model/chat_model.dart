@@ -1,6 +1,5 @@
 class ChatModel{
+  String? name,msg,date,time,docId,id;
 
-  String? time,date,name,msg,id;
-
-  ChatModel({this.time, this.date, this.name, this.msg,this.id});
+  ChatModel({this.name, this.msg, this.date, this.time,this.docId,this.id});
 }

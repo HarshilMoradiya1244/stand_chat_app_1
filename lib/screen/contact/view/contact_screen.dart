@@ -34,6 +34,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
               for (var x in qsList) {
                 Map m1 = x.data() as Map;
+                print(m1);
                 ProfileModel p1 = ProfileModel(
                   uid: x.id,
                   image: m1['image'],
@@ -42,7 +43,6 @@ class _ContactScreenState extends State<ContactScreen> {
                   email: m1['email'],
                   mobile: m1['mobile'],
                   address: m1['address'],
-
                 );
                 contactData.add(p1);
               }

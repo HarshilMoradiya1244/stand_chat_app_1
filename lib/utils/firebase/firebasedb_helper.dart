@@ -19,7 +19,7 @@ class FireDbHelper {
         .doc("${FireAuthHelper.fireAuthHelper.user!.uid}")
         .set(
       {
-        "uid": p1.uid,
+        "id": p1.uid,
         "name": p1.name,
         "mobile": p1.mobile,
         "bio": p1.bio,
@@ -46,7 +46,7 @@ class FireDbHelper {
         email: data['email'],
         image: data['image'],
         mobile: data['mobile'],
-        uid: data['uid'],
+        uid: data['id'],
       );
     }
   }
@@ -61,7 +61,7 @@ class FireDbHelper {
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllContact() {
     return fireDb
         .collection("user")
-        .where("uid",
+        .where("id",
         isNotEqualTo: "${FireAuthHelper.fireAuthHelper.user!.uid}")
         .snapshots();
   }

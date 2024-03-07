@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:stand_chat_app/screen/profile/controller/profile_controller.dart';
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/screen/widget/custome_textfiled.dart';
 import 'package:stand_chat_app/utils/firebase/firebase_authanticasion.dart';

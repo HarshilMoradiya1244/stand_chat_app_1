@@ -1,4 +1,3 @@
-
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/utils/firebase/firebase_authanticasion.dart';
 import 'package:stand_chat_app/utils/firebase/firebasedb_helper.dart';
@@ -15,8 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -34,6 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("ChatApp"),
         centerTitle: true,
         actions: [
+          IconButton(
+              onPressed: () {
+                Get.toNamed('profile');
+              },
+              icon: const Icon(Icons.person)),
           IconButton(
             onPressed: () async {
               await FireAuthHelper.fireAuthHelper.signOut();
@@ -98,8 +100,23 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: () {
-                    Get.toNamed('chat',arguments: contactChatList[index]);
+                    Get.toNamed('chat', arguments: contactChatList[index]);
                   },
+                  leading: contactChatList[index].image == null
+                      ? SizedBox(
+                          width: 50,
+                          child: CircleAvatar(
+                            radius: 50,
+                            child: Text("${contactChatList[index].name}"
+                                .toUpperCase()
+                                .substring(0, 1)),
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              NetworkImage("${contactChatList[index].image}"),
+                        ),
                   title: Text("${contactChatList[index].name}"),
                   subtitle: Text("${contactChatList[index].mobile}"),
                 );
@@ -111,68 +128,71 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+      drawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 60),
+          child: StreamBuilder(
+            stream: FireDbHelper.fireDbHelper.getProfileData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              } else if (snapshot.hasData) {
+                DocumentSnapshot ds = snapshot.data!;
+                Map m1 = ds.data() as Map;
+
+                return Column(
+                  children: [
+                    m1['image'] == null
+                        ? CircleAvatar(
+                            radius: 50,
+                            child: Text(
+                                "${m1['name']}".toUpperCase().substring(0, 1)),
+                          )
+                        : CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage("${m1['image']}"),
+                          ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "${m1['name']}",
+                      style: txtBold18,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${m1['bio']}",
+                      style: txtMedium14,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${m1['mobile']}",
+                      style: txtMedium14,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "${m1['email']}",
+                      style: txtMedium14,
+                    ),
+                  ],
+                );
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.toNamed('contact');
         },
         child: const Icon(Icons.add),
-      ),
-      drawer: Drawer(
-        child: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: StreamBuilder(
-              stream: FireDbHelper.fireDbHelper.getProfileData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                } else if (snapshot.hasData) {
-                  DocumentSnapshot ds = snapshot.data!;
-                  Map m1 = ds.data() as Map;
-
-                  return Column(
-                    children: [
-                      m1['image'] == null
-                          ? const CircleAvatar(
-                        radius: 50,
-                      )
-                          : CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage("${m1['image']}"),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "${m1['name']}",
-                        style: txtBold18,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${m1['bio']}",
-                        style: txtMedium14,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${m1['email']}",
-                        style: txtMedium14,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${m1['mobile']}",
-                        style: txtMedium14,
-                      ),
-                    ],
-                  );
-                }
-                return const CircularProgressIndicator();
-              },
-            )),
       ),
     );
   }
