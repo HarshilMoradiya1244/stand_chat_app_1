@@ -37,7 +37,7 @@ class NotificationServices {
   Future<void> largeImageNotification() async {
     String image = await downloadFile(
         "https://i.pinimg.com/564x/27/8d/5e/278d5e793b01e7741e276e86f3cde02c.jpg",
-        "elephant");
+        "");
     AndroidNotificationDetails aDetails = AndroidNotificationDetails(
       "2",
       "LargeImage",
@@ -64,7 +64,7 @@ class NotificationServices {
   Future<void> createToken() async {
     fcm.requestPermission(provisional: true);
     String? token = await fcm.getToken();
-    print("====> $token");
+    print("=========> $token");
   }
 
   void getFCM() {
