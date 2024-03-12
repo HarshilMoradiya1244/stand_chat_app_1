@@ -1,6 +1,7 @@
 import 'package:stand_chat_app/screen/profile/model/profile_model.dart';
 import 'package:stand_chat_app/utils/firebase/firebase_authanticasion.dart';
 import 'package:stand_chat_app/utils/firebase/firebasedb_helper.dart';
+import 'package:stand_chat_app/utils/services/notification_services.dart';
 import 'package:stand_chat_app/utils/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("ChatApp"),
         centerTitle: true,
         actions: [
+          IconButton(
+            onPressed: () {
+              NotificationServices.services.largeImageNotification();
+            },
+            icon: const Icon(Icons.notification_add_outlined),
+          ),
           IconButton(
               onPressed: () {
                 Get.toNamed('profile');

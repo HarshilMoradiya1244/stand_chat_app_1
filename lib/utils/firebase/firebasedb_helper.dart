@@ -70,9 +70,6 @@ class FireDbHelper {
     return fireDb.collection("chat").snapshots();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> readChat(String docID){return fireDb.collection("chat").doc(docID).collection("message").snapshots();
-  }
-
   Future<void> sendMessage(ChatModel? model, ProfileModel? myProfile, ProfileModel? fProfile) async {
     String myUid = FireAuthHelper.fireAuthHelper.user!.uid;
     await fireDb
@@ -108,5 +105,22 @@ class FireDbHelper {
     });
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> readChat(String docID) {
+    return fireDb
+        .collection("chat")
+        .doc(docID)
+        .collection("message")
+        .orderBy('timestamp',descending: true)
+        .snapshots();
+  }
+
+  void deleteMessage(String docID, String msgDocID) async {
+    await fireDb
+        .collection("chat")
+        .doc(docID)
+        .collection("message")
+        .doc(msgDocID)
+        .delete();
+  }
 
 }
