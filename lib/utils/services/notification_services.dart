@@ -37,7 +37,7 @@ class NotificationServices {
   Future<void> largeImageNotification() async {
     String image = await downloadFile(
         "https://i.pinimg.com/564x/27/8d/5e/278d5e793b01e7741e276e86f3cde02c.jpg",
-        "");
+        "notification");
     AndroidNotificationDetails aDetails = AndroidNotificationDetails(
       "2",
       "LargeImage",
